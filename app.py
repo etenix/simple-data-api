@@ -10,30 +10,53 @@ def home():
 
 @app.route("/sum", methods=["POST"])
 def calculate_sum():
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    numbers = data.get("numbers", [])
+        if not data or "numbers" not in data:
+            return jsonify({"error": "Invalid input format"}), 400
 
-    if not numbers:
-        return jsonify({"error": "No numbers provided"}), 400
+        numbers = data["numbers"]
 
-    total = sum(numbers)
+        if not isinstance(numbers, list):
+            return jsonify({"error": "Numbers must be a list"}), 400
 
-    return jsonify({
-        "numbers": numbers,
-        "sum": total
-    })
+        total = sum(numbers)
+
+        return jsonify({
+            "numbers": numbers,
+            "sum": total
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/stats", methods=["POST"])
 def calculate_stats():
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    numbers = data.get("numbers", [])
+        if not data or "numbers" not in data:
+            return jsonify({"error": "Invalid input format"}), 400
 
-    if not numbers:
-        return jsonify({"error": "No numbers provided"}), 400
+        numbers = data["numbers"]
 
+        if not isinstance(numbers, list):
+            return jsonify({"error": "Numbers must be a list"}), 400
+
+        result = {
+            "count": len(numbers),
+            "max": max(numbers),
+            "min": min(numbers),
+            "average": sum(numbers) / len(numbers)
+        }
+
+        return jsonify(result)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+        
     result = {
         "count": len(numbers),
         "max": max(numbers),
