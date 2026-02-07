@@ -20,3 +20,10 @@ It provides basic data processing functions such as sum and statistics calculati
 ## Usage
 
 ### Install dependencies
+
+## Design
+
+- Implemented input validation
+- Added exception handling
+- Followed RESTful API principles
+- Focused on code readability and maintainability
